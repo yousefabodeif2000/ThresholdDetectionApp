@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36203.30
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThresholdDetection.Core", "ThresholdDetection.Core\ThresholdDetection.Core.csproj", "{1997E771-A242-4FE3-AD48-F275757EE298}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThresholdDetection.Tests", "ThresholdDetection.Tests\ThresholdDetection.Tests.csproj", "{BA71E473-57EA-43E3-83FD-05E827518388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThresholdDetection.WPF", "ThresholdDetection.WPF\ThresholdDetection.WPF.csproj", "{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1997E771-A242-4FE3-AD48-F275757EE298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1997E771-A242-4FE3-AD48-F275757EE298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1997E771-A242-4FE3-AD48-F275757EE298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1997E771-A242-4FE3-AD48-F275757EE298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA71E473-57EA-43E3-83FD-05E827518388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA71E473-57EA-43E3-83FD-05E827518388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA71E473-57EA-43E3-83FD-05E827518388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA71E473-57EA-43E3-83FD-05E827518388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91E07B01-D0AC-4E58-9E83-C21FB28676A3}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,85 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.wpf\\thresholddetection.wpf.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|solutionrelative:thresholddetection.wpf\\thresholddetection.wpf.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.wpf\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|solutionrelative:thresholddetection.wpf\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 1867,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ThresholdDetection.WPF",
+              "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj",
+              "RelativeDocumentMoniker": "ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj",
+              "ToolTip": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj",
+              "RelativeToolTip": "ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-13T10:44:53.507Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "ThresholdDetection.WPF\\MainWindow.xaml",
+              "ToolTip": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\MainWindow.xaml",
+              "RelativeToolTip": "ThresholdDetection.WPF\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-13T10:44:00.942Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 429,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 850,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
