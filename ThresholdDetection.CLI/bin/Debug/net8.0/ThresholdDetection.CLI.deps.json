@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ThresholdDetection.CLI/1.0.0": {
+        "dependencies": {
+          "ThresholdDetection.Core": "1.0.0"
+        },
+        "runtime": {
+          "ThresholdDetection.CLI.dll": {}
+        }
+      },
+      "ThresholdDetection.Core/1.0.0": {
+        "runtime": {
+          "ThresholdDetection.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ThresholdDetection.CLI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ThresholdDetection.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

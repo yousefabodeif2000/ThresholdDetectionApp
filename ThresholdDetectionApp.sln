@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThresholdDetection.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThresholdDetection.WPF", "ThresholdDetection.WPF\ThresholdDetection.WPF.csproj", "{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThresholdDetection.CLI", "ThresholdDetection.CLI\ThresholdDetection.CLI.csproj", "{314AD464-498C-4F7C-A9D3-6B64CE58CB9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1997E771-A242-4FE3-AD48-F275757EE298} = {1997E771-A242-4FE3-AD48-F275757EE298}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +32,10 @@ Global
 		{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{314AD464-498C-4F7C-A9D3-6B64CE58CB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{314AD464-498C-4F7C-A9D3-6B64CE58CB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{314AD464-498C-4F7C-A9D3-6B64CE58CB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{314AD464-498C-4F7C-A9D3-6B64CE58CB9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

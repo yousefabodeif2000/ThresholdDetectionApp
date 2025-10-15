@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ThresholdDetection.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab20e1480f3191436b25c1885aaad65c9f09cb13")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17f0145d4cda237c169e3d55e5040750dcfde74a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ThresholdDetection.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ThresholdDetection.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
