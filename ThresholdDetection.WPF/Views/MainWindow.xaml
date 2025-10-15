@@ -8,7 +8,9 @@
         mc:Ignorable="d"
         Title="Threshold Detection Visualizer"
         Height="700" Width="900"
-        WindowStartupLocation="CenterScreen">
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="#202020">
 
     <Window.Resources>
         <conv:HeatColorConverter x:Key="HeatColorConverter"/>
@@ -20,80 +22,93 @@
     </Window.DataContext>
 
     <DockPanel>
-        <!-- Controls -->
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
-            <TextBlock Text="Threshold:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+        <!-- Top Control Bar -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" VerticalAlignment="Top">
+            <TextBlock Text="Threshold:" Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0"/>
             <TextBox Width="80"
-                     Text="{Binding Threshold, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding Threshold, UpdateSourceTrigger=PropertyChanged, StringFormat=F2, ValidatesOnExceptions=True}"
                      Margin="0,0,10,0"/>
-            <Button Content="Detect Regions"
-                    Command="{Binding DetectCommand}"
-                    Width="150"/>
-            <Button Content="Load CSV"
-                    Command="{Binding LoadCsvCommand}"
-                    Margin="10,0,0,0"
-                    Width="100"/>
+
+            <Button Content="Detect Regions" Command="{Binding DetectCommand}" Width="150" Margin="0,0,10,0"/>
+            <Button Content="Load CSV" Command="{Binding LoadCsvCommand}" Width="100" Margin="0,0,20,0"/>
+
+            <!-- Zoom Controls -->
+            <Button Content="+" Width="30" Height="30" Command="{Binding ZoomInCommand}" Margin="0,0,5,0"/>
+            <Button Content="−" Width="30" Height="30" Command="{Binding ZoomOutCommand}" Margin="0,0,5,0"/>
+            <Button Content="Reset" Width="60" Height="30" Command="{Binding ResetZoomCommand}"/>
         </StackPanel>
 
-        <!-- Visualization -->
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Grid>
-                <!-- Matrix heatmap -->
-                <ItemsControl ItemsSource="{Binding MatrixRows}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+        <!-- Pannable and Zoomable Canvas -->
+        <Grid Background="#181818">
+            <Border ClipToBounds="True" Background="#181818">
+                <Canvas x:Name="PanCanvas"
+                        RenderTransformOrigin="0.5,0.5"
+                        MouseWheel="Canvas_MouseWheel"
+                        MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
+                        MouseLeftButtonUp="Canvas_MouseLeftButtonUp"
+                        MouseMove="Canvas_MouseMove">
+                    <Canvas.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform x:Name="ZoomTransform" ScaleX="1" ScaleY="1"/>
+                            <TranslateTransform x:Name="PanTransform" X="0" Y="0"/>
+                        </TransformGroup>
+                    </Canvas.RenderTransform>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Width="20" Height="20"
-                                                BorderBrush="#444" BorderThickness="0.5"
-                                                Background="{Binding Converter={StaticResource HeatColorConverter}}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    <!-- Heatmap -->
+                    <ItemsControl ItemsSource="{Binding MatrixRows}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-                <!-- Boxes overlay -->
-                <ItemsControl ItemsSource="{Binding Boxes}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Width="20" Height="20"
+                                                    BorderBrush="#444" BorderThickness="0.5"
+                                                    Background="{Binding Converter={StaticResource HeatColorConverter}}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Canvas.Left"
-                                    Value="{Binding XStart, Converter={StaticResource ScaleConverter}}"/>
-                            <Setter Property="Canvas.Top"
-                                    Value="{Binding YStart, Converter={StaticResource ScaleConverter}}"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
+                    <!-- Detection Boxes -->
+                    <ItemsControl ItemsSource="{Binding Boxes}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Rectangle Stroke="Lime"
-                                       StrokeThickness="2"
-                                       Fill="#40FF0000"
-                                       Width="{Binding XLength, Converter={StaticResource ScaleConverter}}"
-                                       Height="{Binding YLength, Converter={StaticResource ScaleConverter}}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-        </ScrollViewer>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Canvas.Left" Value="{Binding XStart, Converter={StaticResource ScaleConverter}}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding YStart, Converter={StaticResource ScaleConverter}}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Rectangle Stroke="Lime"
+                                           StrokeThickness="2"
+                                           Fill="#40FF0000"
+                                           Width="{Binding XLength, Converter={StaticResource ScaleConverter}}"
+                                           Height="{Binding YLength, Converter={StaticResource ScaleConverter}}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Canvas>
+            </Border>
+        </Grid>
     </DockPanel>
 </Window>
