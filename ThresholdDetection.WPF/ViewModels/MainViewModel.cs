@@ -19,6 +19,19 @@ namespace ThresholdDetection.WPF.ViewModels
             get => _threshold;
             set { _threshold = value; OnPropertyChanged(); }
         }
+        private double _zoomLevel = 1.0;
+        public double ZoomLevel
+        {
+            get => _zoomLevel;
+            set
+            {
+                if (Math.Abs(_zoomLevel - value) > 0.0001)
+                {
+                    _zoomLevel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private ObservableCollection<ObservableCollection<double>> _matrixRows = new();
         public ObservableCollection<ObservableCollection<double>> MatrixRows
@@ -46,6 +59,16 @@ namespace ThresholdDetection.WPF.ViewModels
         {
             get => _isLoading;
             set => SetProperty(ref _isLoading, value);
+        }
+        private bool _isDataLoaded;
+        public bool IsDataLoaded
+        {
+            get => _isDataLoaded;
+            set
+            {
+                _isDataLoaded = value;
+                OnPropertyChanged();
+            }
         }
 
         private string _statusMessage = "Ready";
@@ -102,8 +125,9 @@ namespace ThresholdDetection.WPF.ViewModels
                         }
                         MatrixRows.Add(row);
                     }
+                    IsDataLoaded = true;
+                    StatusMessage = $"Loaded CSV ({_data.GetLength(0)}x{_data.GetLength(1)}).";
 
-                    StatusMessage = "CSV loaded successfully.";
                 }
                 catch (Exception ex)
                 {

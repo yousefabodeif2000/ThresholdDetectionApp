@@ -9,12 +9,14 @@ namespace ThresholdDetection.WPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+            bool invert = parameter?.ToString()?.ToLower() == "invert";
+            bool visible = (bool)value;
+            if (invert) visible = !visible;
+            return visible ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (Visibility)value == Visibility.Visible;
-        }
+            => throw new NotImplementedException();
     }
+
 }
