@@ -13,4 +13,16 @@
     <SourceRoot Include="C:\Users\youse\.nuget\packages\" />
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)uno.foundation\6.0.465\buildTransitive\Uno.Foundation.props" Condition="Exists('$(NuGetPackageRoot)uno.foundation\6.0.465\buildTransitive\Uno.Foundation.props')" />
+    <Import Project="$(NuGetPackageRoot)uno.winrt\6.0.465\buildTransitive\Uno.WinRT.props" Condition="Exists('$(NuGetPackageRoot)uno.winrt\6.0.465\buildTransitive\Uno.WinRT.props')" />
+    <Import Project="$(NuGetPackageRoot)uno.fonts.fluent\2.6.1\buildTransitive\Uno.Fonts.Fluent.props" Condition="Exists('$(NuGetPackageRoot)uno.fonts.fluent\2.6.1\buildTransitive\Uno.Fonts.Fluent.props')" />
+    <Import Project="$(NuGetPackageRoot)uno.winui\6.0.465\buildTransitive\net8.0\uno.winui.props" Condition="Exists('$(NuGetPackageRoot)uno.winui\6.0.465\buildTransitive\net8.0\uno.winui.props')" />
+    <Import Project="$(NuGetPackageRoot)skiasharp.nativeassets.webassembly\2.88.9\buildTransitive\netstandard1.0\SkiaSharp.NativeAssets.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)skiasharp.nativeassets.webassembly\2.88.9\buildTransitive\netstandard1.0\SkiaSharp.NativeAssets.WebAssembly.props')" />
+  </ImportGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgUno_Foundation Condition=" '$(PkgUno_Foundation)' == '' ">C:\Users\youse\.nuget\packages\uno.foundation\6.0.465</PkgUno_Foundation>
+    <PkgUno_WinRT Condition=" '$(PkgUno_WinRT)' == '' ">C:\Users\youse\.nuget\packages\uno.winrt\6.0.465</PkgUno_WinRT>
+    <PkgUno_WinUI Condition=" '$(PkgUno_WinUI)' == '' ">C:\Users\youse\.nuget\packages\uno.winui\6.0.465</PkgUno_WinUI>
+  </PropertyGroup>
 </Project>

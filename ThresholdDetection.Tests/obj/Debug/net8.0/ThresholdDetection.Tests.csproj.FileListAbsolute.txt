@@ -1,6 +1,9 @@
+D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\.msCoverageSourceRootsMapping_ThresholdDetection.Tests
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_ThresholdDetection.Tests
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\testhost.dll
+D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\xunit.abstractions.dll
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\testhost.exe
+D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\xunit.runner.visualstudio.testadapter.dll
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\ThresholdDetection.Tests.deps.json
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\ThresholdDetection.Tests.runtimeconfig.json
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\ThresholdDetection.Tests.dll
@@ -14,7 +17,6 @@ D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\Microsoft.TestPlatform.Utilities.dll
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\Microsoft.VisualStudio.TestPlatform.Common.dll
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\Newtonsoft.Json.dll
-D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\xunit.abstractions.dll
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\xunit.assert.dll
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\xunit.core.dll
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\xunit.execution.dotnet.dll
@@ -97,5 +99,3 @@ D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\obj\Debug
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\obj\Debug\net8.0\ThresholdDetection.Tests.pdb
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\obj\Debug\net8.0\ThresholdDetection.Tests.genruntimeconfig.cache
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\obj\Debug\net8.0\ref\ThresholdDetection.Tests.dll
-D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\.msCoverageSourceRootsMapping_ThresholdDetection.Tests
-D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.Tests\bin\Debug\net8.0\xunit.runner.visualstudio.testadapter.dll

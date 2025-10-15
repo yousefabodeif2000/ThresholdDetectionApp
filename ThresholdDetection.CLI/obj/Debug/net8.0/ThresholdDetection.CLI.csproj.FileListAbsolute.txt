@@ -1,8 +1,3 @@
-D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.GeneratedMSBuildEditorConfig.editorconfig
-D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.AssemblyInfoInputs.cache
-D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.AssemblyInfo.cs
-D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.csproj.CoreCompileInputs.cache
-D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.sourcelink.json
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\bin\Debug\net8.0\ThresholdDetection.CLI.exe
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\bin\Debug\net8.0\ThresholdDetection.CLI.deps.json
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\bin\Debug\net8.0\ThresholdDetection.CLI.runtimeconfig.json
@@ -11,6 +6,11 @@ D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\bin\Debug\n
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\bin\Debug\net8.0\ThresholdDetection.Core.dll
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\bin\Debug\net8.0\ThresholdDetection.Core.pdb
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.csproj.AssemblyReference.cache
+D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.GeneratedMSBuildEditorConfig.editorconfig
+D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.AssemblyInfoInputs.cache
+D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.AssemblyInfo.cs
+D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.csproj.CoreCompileInputs.cache
+D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.sourcelink.json
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\Threshol.DCFDC4F7.Up2Date
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\ThresholdDetection.CLI.dll
 D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.CLI\obj\Debug\net8.0\refint\ThresholdDetection.CLI.dll
