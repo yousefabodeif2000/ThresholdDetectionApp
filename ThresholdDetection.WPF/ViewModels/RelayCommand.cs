@@ -8,6 +8,19 @@ namespace ThresholdDetection.WPF.ViewModels
         private readonly Action<object?> _execute;
         private readonly Predicate<object?>? _canExecute;
 
+        public RelayCommand(Action execute)
+        {
+            if (execute == null) throw new ArgumentNullException(nameof(execute));
+            _execute = _ => execute();
+        }
+
+        public RelayCommand(Action execute, Predicate<object?>? canExecute = null)
+        {
+            if (execute == null) throw new ArgumentNullException(nameof(execute));
+            _execute = _ => execute();
+            _canExecute = canExecute;
+        }
+
         public RelayCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
@@ -22,6 +35,14 @@ namespace ThresholdDetection.WPF.ViewModels
         {
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
+        }
+
+        /// <summary>
+        /// Manually forces WPF to requery CanExecute state.
+        /// </summary>
+        public void NotifyCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 }

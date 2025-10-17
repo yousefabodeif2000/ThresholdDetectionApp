@@ -18,7 +18,7 @@ class Program
 
         foreach (var box in boxes)
         {
-            Console.WriteLine($"Box => X:{box.XStart}, Y:{box.YStart}, W:{box.XLength}, H:{box.YLength}");
+            Console.WriteLine($"Box => XStart:{box.XStart}, YStart:{box.YStart}, W:{box.XLength}, H:{box.YLength}");
         }
     }
 

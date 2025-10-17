@@ -1,175 +1,252 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using Microsoft.Win32;
+﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using ThresholdDetection.Core.Models;
 using ThresholdDetection.Core.Services;
-using ThresholdDetection.WPF.Views;
+using ThresholdDetection.Core.Models;
+using Microsoft.Win32;
 
 namespace ThresholdDetection.WPF.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : INotifyPropertyChanged
     {
-        private double _threshold = 0.5;
+        private readonly Detector _detector = new();
+        private double[,]? _data;
+        private string _statusMessage = "Ready";
+        private bool _isBusy;
+        private double _threshold = 100;
+        private double _zoom = 1.0;
+        private double _offsetX;
+        private double _offsetY;
+
+        public ObservableCollection<Box> Boxes { get; } = new();
+
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set { _statusMessage = value; OnPropertyChanged(nameof(StatusMessage)); }
+        }
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set { _isBusy = value; OnPropertyChanged(nameof(IsBusy)); UpdateCommandStates(); }
+        }
+        private int _loadProgress;
+        public int LoadProgress
+        {
+            get => _loadProgress;
+            set { _loadProgress = value; OnPropertyChanged(nameof(LoadProgress)); }
+        }
+
         public double Threshold
         {
             get => _threshold;
-            set { _threshold = value; OnPropertyChanged(); }
+            set { _threshold = value; OnPropertyChanged(nameof(Threshold)); }
+        }
+
+        public double Zoom
+        {
+            get => _zoom;
+            set { _zoom = value; OnPropertyChanged(nameof(Zoom)); }
+        }
+
+        public double OffsetX
+        {
+            get => _offsetX;
+            set { _offsetX = value; OnPropertyChanged(nameof(OffsetX)); }
+        }
+
+        public double OffsetY
+        {
+            get => _offsetY;
+            set { _offsetY = value; OnPropertyChanged(nameof(OffsetY)); }
         }
         private double _zoomLevel = 1.0;
         public double ZoomLevel
         {
             get => _zoomLevel;
-            set
-            {
-                if (Math.Abs(_zoomLevel - value) > 0.0001)
-                {
-                    _zoomLevel = value;
-                    OnPropertyChanged();
-                }
-            }
+            set { _zoomLevel = value; OnPropertyChanged(nameof(ZoomLevel)); }
         }
 
-        private ObservableCollection<ObservableCollection<double>> _matrixRows = new();
-        public ObservableCollection<ObservableCollection<double>> MatrixRows
-        {
-            get => _matrixRows;
-            set { _matrixRows = value; OnPropertyChanged(); }
-        }
-
-        private ObservableCollection<Box> _boxes = new();
-        public ObservableCollection<Box> Boxes
-        {
-            get => _boxes;
-            set { _boxes = value; OnPropertyChanged(); }
-        }
-
-        public ICommand DetectCommand { get; }
-        public ICommand LoadCsvCommand { get; }
-        public ICommand ZoomInCommand { get; }
-        public ICommand ZoomOutCommand { get; }
-        public ICommand ResetZoomCommand { get; }
-
-        private double[,] _data;
-        private bool _isLoading;
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set => SetProperty(ref _isLoading, value);
-        }
         private bool _isDataLoaded;
         public bool IsDataLoaded
         {
             get => _isDataLoaded;
+            set { _isDataLoaded = value; OnPropertyChanged(nameof(IsDataLoaded)); }
+        }
+
+        private ObservableCollection<ObservableCollection<double>>? _matrixRows;
+
+        public ObservableCollection<ObservableCollection<double>>? MatrixRows
+        {
+            get => _matrixRows;
             set
             {
-                _isDataLoaded = value;
-                OnPropertyChanged();
+                _matrixRows = value;
+                OnPropertyChanged(nameof(MatrixRows));
             }
         }
 
-        private string _statusMessage = "Ready";
-        public string StatusMessage
+
+        private int _matrixCols;
+        public int MatrixCols
         {
-            get => _statusMessage;
-            set => SetProperty(ref _statusMessage, value);
+            get => _matrixCols;
+            set { _matrixCols = value; OnPropertyChanged(nameof(MatrixCols)); }
         }
+
+
+        // Commands
+        public ICommand LoadCsvCommand { get; set; } = new RelayCommand(() => { });
+        public ICommand DetectCommand { get; set; } = new RelayCommand(() => { });
+        public ICommand FitToScreenCommand { get; set; } = new RelayCommand(() => { });
+        public ICommand ZoomInCommand { get; set; } = new RelayCommand(() => { });
+        public ICommand ZoomOutCommand { get; set; } = new RelayCommand(() => { });
+        public ICommand ResetViewCommand { get; set; } = new RelayCommand(() => { });
+
 
         public MainViewModel()
         {
-            DetectCommand = new RelayCommand(_ => Detect());
-            LoadCsvCommand = new RelayCommand(_ => LoadCsv());
-            ZoomInCommand = new RelayCommand(_ => Zoom(1.25));
-            ZoomOutCommand = new RelayCommand(_ => Zoom(0.8));
-            ResetZoomCommand = new RelayCommand(_ => ResetZoom());
+            LoadCsvCommand = new RelayCommand(async () => await LoadCsvAsync(), _ => !IsBusy);
+            DetectCommand = new RelayCommand(async () => await DetectAsync(), _ => !IsBusy && _data != null);
+            ZoomInCommand = new RelayCommand(ZoomIn);
+            ZoomOutCommand = new RelayCommand(ZoomOut);
+            ResetViewCommand = new RelayCommand(ResetView);
+            FitToScreenCommand = new RelayCommand(FitToScreen);
         }
 
-        private async void LoadCsv()
+        private async Task LoadCsvAsync()
         {
-            var openFileDialog = new OpenFileDialog { Filter = "CSV files (*.csv)|*.csv" };
-            if (openFileDialog.ShowDialog() == true)
+            var dialog = new OpenFileDialog
             {
-                try
+                Filter = "CSV Files (*.csv)|*.csv",
+                Title = "Select Data File"
+            };
+
+            if (dialog.ShowDialog() != true)
+                return;
+
+            IsBusy = true;
+            StatusMessage = "Loading CSV...";
+            LoadProgress = 0;
+            IsDataLoaded = false;
+
+            try
+            {
+                var lines = await Task.Run(() => File.ReadAllLines(dialog.FileName));
+                int rows = lines.Length;
+                int cols = lines[0].Split(',').Length;
+
+                //Heavy lifting off the UI thread
+                var (matrix, progress) = await Task.Run(() =>
                 {
-                    StatusMessage = "Loading CSV file...";
-                    IsLoading = true;
+                    var temp = new double[rows, cols];
+                    for (int y = 0; y < rows; y++)
+                    {
+                        var parts = lines[y].Split(',');
+                        for (int x = 0; x < cols; x++)
+                            temp[y, x] = double.Parse(parts[x]);
+                    }
+                    return (temp, 100);
+                });
 
-                    var fileName = openFileDialog.FileName;
-
-                    // Load in background thread
-                    var lines = await Task.Run(() => File.ReadAllLines(fileName));
-                    var rows = lines
-                        .Select(line => line.Split(',')
-                        .Select(s => double.TryParse(s, out var val) ? val : double.NaN)
-                        .ToArray())
-                        .ToArray();
-
-                    int height = rows.Length;
-                    int width = rows[0].Length;
-                    _data = new double[height, width];
-
-                    MatrixRows.Clear();
-
-                    StatusMessage = "Parsing data...";
-
-                    for (int y = 0; y < height; y++)
+                //Only now, update the observable collections on UI thread
+                await Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    var newMatrix = new ObservableCollection<ObservableCollection<double>>();
+                    for (int y = 0; y < matrix.GetLength(0); y++)
                     {
                         var row = new ObservableCollection<double>();
-                        for (int x = 0; x < width; x++)
-                        {
-                            _data[y, x] = rows[y][x];
-                            row.Add(rows[y][x]);
-                        }
-                        MatrixRows.Add(row);
+                        for (int x = 0; x < matrix.GetLength(1); x++)
+                            row.Add(matrix[y, x]);
+                        newMatrix.Add(row);
                     }
-                    IsDataLoaded = true;
-                    StatusMessage = $"Loaded CSV ({_data.GetLength(0)}x{_data.GetLength(1)}).";
 
-                }
-                catch (Exception ex)
-                {
-                    StatusMessage = $"Error loading CSV: {ex.Message}";
-                }
-                finally
-                {
-                    IsLoading = false;
-                }
+                    MatrixRows = newMatrix;
+                    _data = matrix;
+                    MatrixCols = cols;
+                    IsDataLoaded = true;
+                    StatusMessage = $"Loaded {rows}x{cols} matrix.";
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+                LoadProgress = 0;
             }
         }
 
 
-        private void Detect()
+
+
+
+        private async Task DetectAsync()
         {
             if (_data == null)
+            {
+                MessageBox.Show("No data loaded.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
+            }
 
-            var detector = new Detector();
-            var boxes = detector.GetBoxes(_data, Threshold);
-            Boxes = new ObservableCollection<Box>(boxes.Cast<Box>());
-        }
-        private void Zoom(double factor)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
+            IsBusy = true;
+            StatusMessage = "Detecting regions...";
+
+            try
             {
-                var main = (MainWindow)Application.Current.MainWindow;
-                main.ZoomTransform.ScaleX *= factor;
-                main.ZoomTransform.ScaleY *= factor;
-            });
+                var boxes = await Task.Run(() => _detector.GetBoxes(_data, _threshold));
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Boxes.Clear();
+                    foreach (var b in boxes)
+                        Boxes.Add(new Box(b.XStart, b.YStart, b.XLength, b.YLength));
+                });
+
+                StatusMessage = $"Detected {Boxes.Count} regions.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Detection error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
-        private void ResetZoom()
+        private void ZoomIn() => Zoom *= 1.25;
+        private void ZoomOut() => Zoom /= 1.25;
+
+        private void ResetView()
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var main = (MainWindow)Application.Current.MainWindow;
-                main.ZoomTransform.ScaleX = 1;
-                main.ZoomTransform.ScaleY = 1;
-                main.PanTransform.X = 0;
-                main.PanTransform.Y = 0;
-            });
+            Zoom = 1.0;
+            OffsetX = 0;
+            OffsetY = 0;
         }
+
+        private void FitToScreen()
+        {
+            // Example logic — can be adjusted based on canvas size
+            Zoom = 0.75;
+            OffsetX = 0;
+            OffsetY = 0;
+        }
+
+        private void UpdateCommandStates()
+        {
+            (LoadCsvCommand as RelayCommand)?.NotifyCanExecuteChanged();
+            (DetectCommand as RelayCommand)?.NotifyCanExecuteChanged();
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

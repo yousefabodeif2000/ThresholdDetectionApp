@@ -50,16 +50,16 @@
                     Width="100"
                     Margin="0,0,10,0"/>
 
-            <Button Content="Zoom In"
+            <Button Content="+"
                     Command="{Binding ZoomInCommand}"
                     Width="90"
-                    Margin="0,0,10,0"
+                    Margin="0,0,1,0"
                     IsEnabled="{Binding IsDataLoaded}"/>
 
-            <Button Content="Zoom Out"
+            <Button Content="-"
                     Command="{Binding ZoomOutCommand}"
                     Width="90"
-                    Margin="0,0,10,0"
+                    Margin="0,0,1,0"
                     IsEnabled="{Binding IsDataLoaded}"/>
 
             <!-- Status message -->
@@ -68,6 +68,16 @@
                        Margin="20,0,0,0"
                        Foreground="Gray"
                        FontStyle="Italic"/>
+            
+            <ProgressBar Minimum="0"
+                         Maximum="100"
+                         Value="{Binding LoadProgress}"
+                         Height="8"
+                         Width="200"
+                         VerticalAlignment="Center"
+                         Margin="20,0,0,0"
+                         Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
         </StackPanel>
 
         <!-- Visualization area -->
@@ -163,7 +173,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Canvas>
-    
+
         </Grid>
     </DockPanel>
 </Window>

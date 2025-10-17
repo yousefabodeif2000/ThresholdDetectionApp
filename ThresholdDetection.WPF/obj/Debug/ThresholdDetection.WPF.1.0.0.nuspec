@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ThresholdDetection.WPF</id>
+    <version>1.0.0</version>
+    <authors>ThresholdDetection.WPF</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="6e2bfe1602b011eadfcd0b8c5e0fb614c248c651" />
+    <dependencies>
+      <group targetFramework="net8.0-windows7.0">
+        <dependency id="ThresholdDetection.Core" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="CSharpMarkup.WinUI.LiveChartsCore.SkiaSharpView" version="3.1.2" exclude="Build,Analyzers" />
+        <dependency id="CommunityToolkit.Mvvm" version="8.4.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net8.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+  <files>
+    <file src="D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.WPF\bin\Debug\net8.0-windows\ThresholdDetection.WPF.runtimeconfig.json" target="lib\net8.0-windows7.0\ThresholdDetection.WPF.runtimeconfig.json" />
+    <file src="D:\Work\WPF Development\ThresholdDetectionApp\ThresholdDetection.WPF\bin\Debug\net8.0-windows\ThresholdDetection.WPF.dll" target="lib\net8.0-windows7.0\ThresholdDetection.WPF.dll" />
+  </files>
+</package>
