@@ -4,176 +4,162 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:ThresholdDetection.WPF.ViewModels"
-        xmlns:conv="clr-namespace:ThresholdDetection.WPF.Converters"
         mc:Ignorable="d"
         Title="Threshold Detection Visualizer"
-        Height="700" Width="900"
+        Width="1000" Height="800"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
-
-    <Window.Resources>
-        <conv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <conv:HeatColorConverter x:Key="HeatColorConverter"/>
-        <conv:ScaleConverter x:Key="ScaleConverter" CellSize="20"/>
-    </Window.Resources>
+        WindowStartupLocation="CenterScreen"
+        Background="#222">
 
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
 
-    <DockPanel>
-        <!-- Top control bar -->
-        <StackPanel DockPanel.Dock="Top"
-                    Orientation="Horizontal"
-                    Margin="10"
-                    VerticalAlignment="Center">
+    <!-- Main Grid (overlay layers) -->
+    <Grid>
+        <!-- ===== Visualization Area (Base Layer) ===== -->
+        <Grid Background="#222"
+              MouseWheel="OnMouseWheel"
+              MouseLeftButtonDown="OnMouseDown"
+              MouseLeftButtonUp="OnMouseUp"
+              MouseMove="OnMouseMove">
 
-            <TextBlock Text="Threshold:" 
-                       VerticalAlignment="Center" 
-                       Margin="0,0,10,0"/>
+            <!-- Zoom/Pan transforms -->
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="{Binding ZoomLevel}" ScaleY="{Binding ZoomLevel}"/>
+                    <TranslateTransform X="{Binding PanX}" Y="{Binding PanY}"/>
+                </TransformGroup>
+            </Grid.RenderTransform>
 
-            <TextBox Width="80"
-                     Text="{Binding Threshold, UpdateSourceTrigger=PropertyChanged, StringFormat=F4}"
-                     Margin="0,0,10,0"
-                     PreviewTextInput="OnPreviewTextInput"
-                     PreviewKeyDown="OnPreviewKeyDown"/>
-
-
-            <Button Content="Detect Regions"
-                    Command="{Binding DetectCommand}"
-                    Width="150"
-                    Margin="0,0,10,0"
-                    IsEnabled="{Binding IsDataLoaded}"/>
-
-            <Button Content="Load CSV"
-                    Command="{Binding LoadCsvCommand}"
-                    Width="100"
-                    Margin="0,0,10,0"/>
-
-            <Button Content="+"
-                    Command="{Binding ZoomInCommand}"
-                    Width="90"
-                    Margin="0,0,1,0"
-                    IsEnabled="{Binding IsDataLoaded}"/>
-
-            <Button Content="-"
-                    Command="{Binding ZoomOutCommand}"
-                    Width="90"
-                    Margin="0,0,1,0"
-                    IsEnabled="{Binding IsDataLoaded}"/>
-
-            <!-- Status message -->
-            <TextBlock Text="{Binding StatusMessage}"
-                       VerticalAlignment="Center"
-                       Margin="20,0,0,0"
-                       Foreground="Gray"
-                       FontStyle="Italic"/>
-            
-            <ProgressBar Minimum="0"
-                         Maximum="100"
-                         Value="{Binding LoadProgress}"
-                         Height="8"
-                         Width="200"
-                         VerticalAlignment="Center"
-                         Margin="20,0,0,0"
-                         Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
-        </StackPanel>
-
-        <!-- Visualization area -->
-        <Grid>
-            <!-- Description before CSV load -->
-            <Border Visibility="{Binding IsDataLoaded, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=invert}"
-                    Background="#111"
-                    CornerRadius="8"
-                    Padding="20"
-                    Margin="40">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Threshold Detection Visualizer"
-                               FontSize="24"
-                               FontWeight="Bold"
-                               Foreground="White"
-                               TextAlignment="Center"
-                               Margin="0,0,0,10"/>
-                    <TextBlock Text="Load a CSV file to visualize threshold-based region detection."
-                               Foreground="#ccc"
-                               TextAlignment="Center"
-                               Width="400"
-                               TextWrapping="Wrap"/>
-                </StackPanel>
-            </Border>
-
-            <!-- Visualization Canvas with named transforms -->
+            <!-- Canvas holds heatmap and boxes -->
             <Canvas x:Name="VisualizationCanvas"
-        RenderTransformOrigin="0.0,0.0"
-        Background="Transparent"
-        Focusable="True">
+                    Width="{Binding HeatmapImage.PixelWidth}"
+                    Height="{Binding HeatmapImage.PixelHeight}"
+                    ClipToBounds="True"
+                    Visibility="{Binding IsDataLoaded, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    MouseWheel="OnMouseWheel"
+                    MouseMove="OnMouseMove"
+                    MouseLeftButtonDown="OnMouseDown"
+                    MouseLeftButtonUp="OnMouseUp"
+                    Background="Transparent">
 
-                <Canvas.RenderTransform>
-                    <TransformGroup>
-                        <!-- Scale transform used for zooming -->
-                        <ScaleTransform x:Name="ZoomTransform" ScaleX="1" ScaleY="1"/>
-                        <!-- Translate transform used for panning -->
-                        <TranslateTransform x:Name="PanTransform" X="0" Y="0"/>
-                    </TransformGroup>
-                </Canvas.RenderTransform>
-
-                <!-- Heatmap: rows of small ItemsControls (same as before) -->
-                <ItemsControl ItemsSource="{Binding MatrixRows}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Width="20" Height="20"
-                                    BorderBrush="#444" BorderThickness="0.5"
-                                    Background="{Binding Converter={StaticResource HeatColorConverter}}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <!-- Base heatmap -->
+                <Image Source="{Binding HeatmapImage}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Stretch="None"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
                 <!-- Boxes overlay -->
                 <ItemsControl ItemsSource="{Binding Boxes}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Canvas />
+                            <Canvas/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
 
                     <ItemsControl.ItemContainerStyle>
                         <Style>
-                            <Setter Property="Canvas.Left"
-                        Value="{Binding XStart, Converter={StaticResource ScaleConverter}}"/>
-                            <Setter Property="Canvas.Top"
-                        Value="{Binding YStart, Converter={StaticResource ScaleConverter}}"/>
+                            <Setter Property="Canvas.Left" Value="{Binding XStart}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding YStart}"/>
                         </Style>
                     </ItemsControl.ItemContainerStyle>
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Rectangle Stroke="Lime"
-                           StrokeThickness="2"
-                           Fill="#40FF0000"
-                           Width="{Binding XLength, Converter={StaticResource ScaleConverter}}"
-                           Height="{Binding YLength, Converter={StaticResource ScaleConverter}}"/>
+                                       StrokeThickness="1.5"
+                                       Fill="#3300FF00"
+                                       Width="{Binding XLength}"
+                                       Height="{Binding YLength}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Canvas>
 
+            <!-- Initial Description -->
+            <Border Visibility="{Binding IsDataLoaded, 
+                             Converter={StaticResource BooleanToVisibilityConverter}, 
+                             ConverterParameter=invert}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600">
+                    <TextBlock Text="Threshold Detection Visualizer"
+                               FontSize="26"
+                               Foreground="White"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="Load a CSV file to visualize a heatmap of 2D data and detect regions above a threshold."
+                               FontSize="16"
+                               Foreground="LightGray"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Loading Overlay -->
+            <Border Background="#AA000000"
+                    Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ProgressBar Width="200" Height="15" IsIndeterminate="True"/>
+                    <TextBlock Text="{Binding StatusMessage}"
+                               Foreground="White"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
         </Grid>
-    </DockPanel>
+
+        <!-- ===== Top Control Bar (Overlays Visualization) ===== -->
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Top"
+                    Margin="10"
+                    Background="#AA222222"
+                    Panel.ZIndex="10">
+
+            <!-- Load CSV -->
+            <Button Content="Load CSV"
+                    Command="{Binding LoadCsvCommand}"
+                    Width="100"
+                    Margin="0,0,10,0"/>
+
+            <!-- Threshold Input -->
+            <TextBlock Text="Threshold:"
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+            <TextBox Text="{Binding Threshold, UpdateSourceTrigger=PropertyChanged, StringFormat=F2}"/>
+
+            <!-- Detect -->
+            <Button Content="Detect Regions"
+                    Command="{Binding DetectCommand}"
+                    Width="120"
+                    Margin="0,0,10,0"
+                    IsEnabled="{Binding IsDataLoaded}"/>
+
+            <!-- Zoom Controls -->
+            <Button Content="+"
+                    Command="{Binding ZoomInCommand}"
+                    Width="40"
+                    Margin="0,0,5,0"
+                    IsEnabled="{Binding IsDataLoaded}"/>
+
+            <Button Content="−"
+                    Command="{Binding ZoomOutCommand}"
+                    Width="40"
+                    Margin="0,0,5,0"
+                    IsEnabled="{Binding IsDataLoaded}"/>
+
+            <Button Content="Reset"
+                    Command="{Binding ResetViewCommand}"
+                    Width="80"
+                    IsEnabled="{Binding IsDataLoaded}"/>
+
+            <!-- Status -->
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="LightGray"
+                       VerticalAlignment="Center"
+                       Margin="20,0,0,0"
+                       FontWeight="SemiBold"/>
+        </StackPanel>
+    </Grid>
 </Window>

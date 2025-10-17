@@ -1,10 +1,13 @@
 ﻿<Application x:Class="ThresholdDetection.WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:ThresholdDetection.WPF.Converters"
-            StartupUri="Views/MainWindow.xaml">
+             xmlns:conv="clr-namespace:ThresholdDetection.WPF.Converters"
+             StartupUri="Views/MainWindow.xaml">
+
     <Application.Resources>
-        <converters:HeatColorConverter x:Key="HeatColorConverter" />
-        <converters:ScaleConverter x:Key="ScaleConverter" CellSize="20" />
+        <conv:HeatColorConverter x:Key="HeatColorConverter"/>
+        <conv:ScaleConverter x:Key="ScaleConverter" CellSize="20"/>
+        <conv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Application.Resources>
 </Application>
+

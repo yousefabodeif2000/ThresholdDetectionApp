@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1997E771-A242-4FE3-AD48-F275757EE298}|ThresholdDetection.Core\\ThresholdDetection.Core.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.core\\services\\detector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1997E771-A242-4FE3-AD48-F275757EE298}|ThresholdDetection.Core\\ThresholdDetection.Core.csproj|solutionrelative:thresholddetection.core\\services\\detector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.wpf\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|solutionrelative:thresholddetection.wpf\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.wpf\\views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|solutionrelative:thresholddetection.wpf\\views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1997E771-A242-4FE3-AD48-F275757EE298}|ThresholdDetection.Core\\ThresholdDetection.Core.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.core\\models\\box.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -13,6 +17,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.wpf\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|solutionrelative:thresholddetection.wpf\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.wpf\\converters\\booleantovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|solutionrelative:thresholddetection.wpf\\converters\\booleantovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1997E771-A242-4FE3-AD48-F275757EE298}|ThresholdDetection.Core\\ThresholdDetection.Core.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.core\\services\\detector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1997E771-A242-4FE3-AD48-F275757EE298}|ThresholdDetection.Core\\ThresholdDetection.Core.csproj|solutionrelative:thresholddetection.core\\services\\detector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.wpf\\helpers\\heatmaprenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADF30FAB-6DAE-4315-8A4A-B283C75EF0C1}|ThresholdDetection.WPF\\ThresholdDetection.WPF.csproj|solutionrelative:thresholddetection.wpf\\helpers\\heatmaprenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1997E771-A242-4FE3-AD48-F275757EE298}|ThresholdDetection.Core\\ThresholdDetection.Core.csproj|d:\\work\\wpf development\\thresholddetectionapp\\thresholddetection.core\\interfaces\\ibox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 1867,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,20 +54,58 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\Views\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "ThresholdDetection.WPF\\Views\\MainWindow.xaml",
+              "ToolTip": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\Views\\MainWindow.xaml",
+              "RelativeToolTip": "ThresholdDetection.WPF\\Views\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-17T19:21:54.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\Views\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "ThresholdDetection.WPF\\Views\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\Views\\MainWindow.xaml.cs",
+              "RelativeToolTip": "ThresholdDetection.WPF\\Views\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAA5wCsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-17T19:14:34.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "HeatmapRenderer.cs",
+              "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\Helpers\\HeatmapRenderer.cs",
+              "RelativeDocumentMoniker": "ThresholdDetection.WPF\\Helpers\\HeatmapRenderer.cs",
+              "ToolTip": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\Helpers\\HeatmapRenderer.cs",
+              "RelativeToolTip": "ThresholdDetection.WPF\\Helpers\\HeatmapRenderer.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAUwDEAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-17T18:11:33.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Box.cs",
               "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.Core\\Models\\Box.cs",
               "RelativeDocumentMoniker": "ThresholdDetection.Core\\Models\\Box.cs",
               "ToolTip": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.Core\\Models\\Box.cs",
               "RelativeToolTip": "ThresholdDetection.Core\\Models\\Box.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-16T12:01:27.313Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "IBox.cs",
               "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.Core\\Interfaces\\IBox.cs",
               "RelativeDocumentMoniker": "ThresholdDetection.Core\\Interfaces\\IBox.cs",
@@ -59,12 +113,11 @@
               "RelativeToolTip": "ThresholdDetection.Core\\Interfaces\\IBox.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T12:01:04.723Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T12:01:04.723Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "RelayCommand.cs",
               "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\ViewModels\\RelayCommand.cs",
               "RelativeDocumentMoniker": "ThresholdDetection.WPF\\ViewModels\\RelayCommand.cs",
@@ -72,33 +125,45 @@
               "RelativeToolTip": "ThresholdDetection.WPF\\ViewModels\\RelayCommand.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAxwBYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T11:54:38.143Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-16T11:54:38.143Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "Detector.cs",
               "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.Core\\Services\\Detector.cs",
               "RelativeDocumentMoniker": "ThresholdDetection.Core\\Services\\Detector.cs",
               "ToolTip": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.Core\\Services\\Detector.cs",
               "RelativeToolTip": "ThresholdDetection.Core\\Services\\Detector.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAABAAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAgwE4AAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-16T11:45:44.701Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "MainViewModel.cs",
               "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\ViewModels\\MainViewModel.cs",
               "RelativeDocumentMoniker": "ThresholdDetection.WPF\\ViewModels\\MainViewModel.cs",
               "ToolTip": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\ViewModels\\MainViewModel.cs",
               "RelativeToolTip": "ThresholdDetection.WPF\\ViewModels\\MainViewModel.cs",
-              "ViewState": "AgIAAHQAAAAAAAAAAAAQwI8AAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAL4AAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-16T11:43:56.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BooleanToVisibilityConverter.cs",
+              "DocumentMoniker": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\Converters\\BooleanToVisibilityConverter.cs",
+              "RelativeDocumentMoniker": "ThresholdDetection.WPF\\Converters\\BooleanToVisibilityConverter.cs",
+              "ToolTip": "D:\\Work\\WPF Development\\ThresholdDetectionApp\\ThresholdDetection.WPF\\Converters\\BooleanToVisibilityConverter.cs",
+              "RelativeToolTip": "ThresholdDetection.WPF\\Converters\\BooleanToVisibilityConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-17T19:03:32.181Z",
               "EditorCaption": ""
             }
           ]

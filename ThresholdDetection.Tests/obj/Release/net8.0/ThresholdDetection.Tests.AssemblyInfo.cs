@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ThresholdDetection.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e2bfe1602b011eadfcd0b8c5e0fb614c248c651")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9cfc488f79563174bc24c232962f5dac369060df")]
 [assembly: System.Reflection.AssemblyProductAttribute("ThresholdDetection.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ThresholdDetection.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

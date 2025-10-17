@@ -5,9 +5,11 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using ThresholdDetection.Core.Services;
-using ThresholdDetection.Core.Models;
+using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using ThresholdDetection.Core.Models;
+using ThresholdDetection.Core.Services;
+using ThresholdDetection.WPF.Helpers;
 
 namespace ThresholdDetection.WPF.ViewModels
 {
@@ -17,12 +19,11 @@ namespace ThresholdDetection.WPF.ViewModels
         private double[,]? _data;
         private string _statusMessage = "Ready";
         private bool _isBusy;
-        private double _threshold = 100;
-        private double _zoom = 1.0;
-        private double _offsetX;
-        private double _offsetY;
+        private double _threshold = 0.5;
+        private WriteableBitmap? _heatmapImage;
+        private bool _isDataLoaded;
 
-        public ObservableCollection<Box> Boxes { get; } = new();
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public string StatusMessage
         {
@@ -35,11 +36,11 @@ namespace ThresholdDetection.WPF.ViewModels
             get => _isBusy;
             set { _isBusy = value; OnPropertyChanged(nameof(IsBusy)); UpdateCommandStates(); }
         }
-        private int _loadProgress;
-        public int LoadProgress
+
+        public bool IsDataLoaded
         {
-            get => _loadProgress;
-            set { _loadProgress = value; OnPropertyChanged(nameof(LoadProgress)); }
+            get => _isDataLoaded;
+            set { _isDataLoaded = value; OnPropertyChanged(nameof(IsDataLoaded)); }
         }
 
         public double Threshold
@@ -48,75 +49,59 @@ namespace ThresholdDetection.WPF.ViewModels
             set { _threshold = value; OnPropertyChanged(nameof(Threshold)); }
         }
 
-        public double Zoom
+        public WriteableBitmap? HeatmapImage
         {
-            get => _zoom;
-            set { _zoom = value; OnPropertyChanged(nameof(Zoom)); }
+            get => _heatmapImage;
+            set { _heatmapImage = value; OnPropertyChanged(nameof(HeatmapImage)); }
         }
-
-        public double OffsetX
+        private ObservableCollection<IBox> _boxes = new();
+        public ObservableCollection<IBox> Boxes
         {
-            get => _offsetX;
-            set { _offsetX = value; OnPropertyChanged(nameof(OffsetX)); }
+            get => _boxes;
+            set
+            {
+                _boxes = value;
+                OnPropertyChanged(nameof(Boxes));
+            }
         }
-
-        public double OffsetY
-        {
-            get => _offsetY;
-            set { _offsetY = value; OnPropertyChanged(nameof(OffsetY)); }
-        }
-        private double _zoomLevel = 1.0;
         public double ZoomLevel
         {
             get => _zoomLevel;
             set { _zoomLevel = value; OnPropertyChanged(nameof(ZoomLevel)); }
         }
+        private double _zoomLevel = 1.0;
 
-        private bool _isDataLoaded;
-        public bool IsDataLoaded
+        public double PanX
         {
-            get => _isDataLoaded;
-            set { _isDataLoaded = value; OnPropertyChanged(nameof(IsDataLoaded)); }
+            get => _panX;
+            set { _panX = value; OnPropertyChanged(nameof(PanX)); }
         }
+        private double _panX;
 
-        private ObservableCollection<ObservableCollection<double>>? _matrixRows;
-
-        public ObservableCollection<ObservableCollection<double>>? MatrixRows
+        public double PanY
         {
-            get => _matrixRows;
-            set
-            {
-                _matrixRows = value;
-                OnPropertyChanged(nameof(MatrixRows));
-            }
+            get => _panY;
+            set { _panY = value; OnPropertyChanged(nameof(PanY)); }
         }
+        private double _panY;
 
-
-        private int _matrixCols;
-        public int MatrixCols
+        public ICommand ZoomInCommand => new RelayCommand(() => ZoomLevel *= 1.1);
+        public ICommand ZoomOutCommand => new RelayCommand(() => ZoomLevel /= 1.1);
+        public ICommand ResetViewCommand => new RelayCommand(() =>
         {
-            get => _matrixCols;
-            set { _matrixCols = value; OnPropertyChanged(nameof(MatrixCols)); }
-        }
-
+            ZoomLevel = 1.0;
+            PanX = 0;
+            PanY = 0;
+        });
 
         // Commands
-        public ICommand LoadCsvCommand { get; set; } = new RelayCommand(() => { });
-        public ICommand DetectCommand { get; set; } = new RelayCommand(() => { });
-        public ICommand FitToScreenCommand { get; set; } = new RelayCommand(() => { });
-        public ICommand ZoomInCommand { get; set; } = new RelayCommand(() => { });
-        public ICommand ZoomOutCommand { get; set; } = new RelayCommand(() => { });
-        public ICommand ResetViewCommand { get; set; } = new RelayCommand(() => { });
-
+        public ICommand LoadCsvCommand { get; }
+        public ICommand DetectCommand { get; }
 
         public MainViewModel()
         {
             LoadCsvCommand = new RelayCommand(async () => await LoadCsvAsync(), _ => !IsBusy);
-            DetectCommand = new RelayCommand(async () => await DetectAsync(), _ => !IsBusy && _data != null);
-            ZoomInCommand = new RelayCommand(ZoomIn);
-            ZoomOutCommand = new RelayCommand(ZoomOut);
-            ResetViewCommand = new RelayCommand(ResetView);
-            FitToScreenCommand = new RelayCommand(FitToScreen);
+            DetectCommand = new RelayCommand(async () => await DetectAsync(), _ => !IsBusy && IsDataLoaded);
         }
 
         private async Task LoadCsvAsync()
@@ -132,46 +117,46 @@ namespace ThresholdDetection.WPF.ViewModels
 
             IsBusy = true;
             StatusMessage = "Loading CSV...";
-            LoadProgress = 0;
+            //LoadProgress = 0;
             IsDataLoaded = false;
 
             try
             {
-                var lines = await Task.Run(() => File.ReadAllLines(dialog.FileName));
+                string[] lines = await Task.Run(() => File.ReadAllLines(dialog.FileName));
                 int rows = lines.Length;
                 int cols = lines[0].Split(',').Length;
 
-                //Heavy lifting off the UI thread
-                var (matrix, progress) = await Task.Run(() =>
+                var matrix = new double[rows, cols];
+
+                await Task.Run(() =>
                 {
-                    var temp = new double[rows, cols];
                     for (int y = 0; y < rows; y++)
                     {
                         var parts = lines[y].Split(',');
                         for (int x = 0; x < cols; x++)
-                            temp[y, x] = double.Parse(parts[x]);
+                            matrix[y, x] = double.Parse(parts[x]);
+
+                        //if (y % 100 == 0)
+                        //    LoadProgress = (int)((double)y / rows * 100);
                     }
-                    return (temp, 100);
                 });
 
-                //Only now, update the observable collections on UI thread
+                _data = matrix;
+                StatusMessage = "Rendering heatmap...";
+
+                // Generate pixel data off-thread
+                var pixelData = await Task.Run(() => HeatmapRenderer.GeneratePixelData(matrix));
+
+                // Create the Bitmap *on the UI thread* safely
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    var newMatrix = new ObservableCollection<ObservableCollection<double>>();
-                    for (int y = 0; y < matrix.GetLength(0); y++)
-                    {
-                        var row = new ObservableCollection<double>();
-                        for (int x = 0; x < matrix.GetLength(1); x++)
-                            row.Add(matrix[y, x]);
-                        newMatrix.Add(row);
-                    }
-
-                    MatrixRows = newMatrix;
-                    _data = matrix;
-                    MatrixCols = cols;
-                    IsDataLoaded = true;
-                    StatusMessage = $"Loaded {rows}x{cols} matrix.";
+                    var bmp = HeatmapRenderer.CreateBitmap(pixelData, cols, rows);
+                    HeatmapImage = bmp;
                 });
+
+
+                IsDataLoaded = true;
+                StatusMessage = $"Loaded {rows}x{cols} matrix.";
             }
             catch (Exception ex)
             {
@@ -180,12 +165,9 @@ namespace ThresholdDetection.WPF.ViewModels
             finally
             {
                 IsBusy = false;
-                LoadProgress = 0;
+                //LoadProgress = 0;
             }
         }
-
-
-
 
 
         private async Task DetectAsync()
@@ -201,14 +183,7 @@ namespace ThresholdDetection.WPF.ViewModels
 
             try
             {
-                var boxes = await Task.Run(() => _detector.GetBoxes(_data, _threshold));
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    Boxes.Clear();
-                    foreach (var b in boxes)
-                        Boxes.Add(new Box(b.XStart, b.YStart, b.XLength, b.YLength));
-                });
-
+                Boxes = await Task.Run(() => new ObservableCollection<IBox>(_detector.GetBoxes(_data, _threshold)));
                 StatusMessage = $"Detected {Boxes.Count} regions.";
             }
             catch (Exception ex)
@@ -221,32 +196,13 @@ namespace ThresholdDetection.WPF.ViewModels
             }
         }
 
-        private void ZoomIn() => Zoom *= 1.25;
-        private void ZoomOut() => Zoom /= 1.25;
-
-        private void ResetView()
-        {
-            Zoom = 1.0;
-            OffsetX = 0;
-            OffsetY = 0;
-        }
-
-        private void FitToScreen()
-        {
-            // Example logic — can be adjusted based on canvas size
-            Zoom = 0.75;
-            OffsetX = 0;
-            OffsetY = 0;
-        }
-
         private void UpdateCommandStates()
         {
             (LoadCsvCommand as RelayCommand)?.NotifyCanExecuteChanged();
             (DetectCommand as RelayCommand)?.NotifyCanExecuteChanged();
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged(string propertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
