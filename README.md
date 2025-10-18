@@ -60,8 +60,8 @@ A WPF-based application for visualizing heatmaps and detecting thresholds in ima
 ## Usage
 
 1. Launch the application.  
-2. Load a heatmap image via the toolbar.  
-3. Adjust the detection threshold to highlight areas of interest.  
+2. Load a CSV file containing your 2D matrix.  
+3. Adjust the detection threshold to highlight areas of interest then click Detect Regions.  
 4. Use zoom and pan controls to navigate the image.  
 
 ---

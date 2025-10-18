@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ThresholdDetection.WPF")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+143a6eaa134468ace44d2929d06f0c32611ac7e6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d773443c0c0ca53a5219028b452b3f135dd41e7e")]
 [assembly: System.Reflection.AssemblyProductAttribute("ThresholdDetection.WPF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ThresholdDetection.WPF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
