@@ -13,8 +13,6 @@ A WPF-based application for visualizing heatmaps and detecting thresholds in ima
 - [Usage](#usage)  
 - [Configuration](#configuration)  
 - [Architecture](#architecture)  
-- [Contributing](#contributing)  
-- [License](#license)  
 
 ---
 
@@ -65,7 +63,6 @@ A WPF-based application for visualizing heatmaps and detecting thresholds in ima
 2. Load a heatmap image via the toolbar.  
 3. Adjust the detection threshold to highlight areas of interest.  
 4. Use zoom and pan controls to navigate the image.  
-5. Save or export results as needed.  
 
 ---
 
@@ -84,8 +81,3 @@ A WPF-based application for visualizing heatmaps and detecting thresholds in ima
 - **Models**: Data structures for detected regions, pixel data, and image metadata.  
 - **Utilities**: Bitmap rendering and image processing helpers.  
 
----
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.  
