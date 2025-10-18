@@ -32,51 +32,57 @@
                 </TransformGroup>
             </Grid.RenderTransform>
 
-            <!-- Canvas holds heatmap and boxes -->
-            <Canvas x:Name="VisualizationCanvas"
-                    Width="{Binding HeatmapImage.PixelWidth}"
-                    Height="{Binding HeatmapImage.PixelHeight}"
-                    ClipToBounds="True"
-                    Visibility="{Binding IsDataLoaded, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    MouseWheel="OnMouseWheel"
-                    MouseMove="OnMouseMove"
-                    MouseLeftButtonDown="OnMouseDown"
-                    MouseLeftButtonUp="OnMouseUp"
-                    Background="Transparent">
+            <Grid x:Name="VisualizationGrid"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  ClipToBounds="True"
+                  Visibility="{Binding IsDataLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                <!-- Base heatmap -->
-                <Image Source="{Binding HeatmapImage}"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Top"
-                       Stretch="None"
-                       RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                <!-- Viewbox centers and scales content -->
+                <Viewbox Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Canvas Width="{Binding HeatmapImage.PixelWidth}"
+                            Height="{Binding HeatmapImage.PixelHeight}">
 
-                <!-- Boxes overlay -->
-                <ItemsControl ItemsSource="{Binding Boxes}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+                        <!-- Base heatmap image -->
+                        <Image Source="{Binding HeatmapImage}"
+                               Canvas.Left="0" Canvas.Top="0"
+                               Width="{Binding HeatmapImage.PixelWidth}"
+                               Height="{Binding HeatmapImage.PixelHeight}"
+                               Stretch="None"/> 
 
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Canvas.Left" Value="{Binding XStart}"/>
-                            <Setter Property="Canvas.Top" Value="{Binding YStart}"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
+                        <!-- Boxes overlay -->
+                        <ItemsControl ItemsSource="{Binding Boxes}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Width="{Binding HeatmapImage.PixelWidth}" 
+                                Height="{Binding HeatmapImage.PixelHeight}"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Rectangle Stroke="Lime"
-                                       StrokeThickness="1.5"
-                                       Fill="#3300FF00"
-                                       Width="{Binding XLength}"
-                                       Height="{Binding YLength}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Canvas>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="Canvas.Left" Value="{Binding XStart}"/>
+                                    <Setter Property="Canvas.Top" Value="{Binding YStart}"/>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle Stroke="Lime"
+                                   StrokeThickness="0.2"
+                                   Fill="#3300FF00"
+                                   Width="{Binding XLength}"
+                                   Height="{Binding YLength}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Canvas>
+                </Viewbox>
+
+            </Grid>
+
+
+
 
             <!-- Initial Description -->
             <Border Visibility="{Binding IsDataLoaded, 

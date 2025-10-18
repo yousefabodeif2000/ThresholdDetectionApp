@@ -1,20 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-
-using ThresholdDetection.Core.Models;
+﻿using ThresholdDetection.Core.Models;
 
 namespace ThresholdDetection.Core.Services
 {
     /// <summary>
-    /// Optimized contiguous region detector using an iterative stack-based flood fill.
-    /// Uses 8-neighbor connectivity and returns bounding boxes.
+    /// Detects contiguous regions in a 2D numeric array that exceed a specified threshold.
+    /// Uses an iterative stack-based flood fill with 8-neighbor connectivity.
+    /// Returns bounding boxes for all detected regions.
     /// </summary>
     public class Detector
     {
+        /// <summary>
+        /// Scans the provided 2D data array and returns bounding boxes around regions
+        /// where values are strictly greater than the given threshold.
+        /// </summary>
+        /// <param name="data">The 2D array of numeric values to scan.</param>
+        /// <param name="threshold">The threshold value. Only cells with values more than threshold are considered part of a region.</param>
+        /// <returns>
+        /// An array of <see cref="IBox"/> objects representing the bounding boxes
+        /// of detected contiguous regions.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The detection algorithm uses 8-neighbor connectivity (horizontal, vertical, and diagonal neighbors).
+        /// NaN values are ignored and treated as outside the threshold region.
+        /// </para>
+        /// <para>
+        /// The method is optimized with a preallocated stack to reduce memory allocations.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="data"/> is null.</exception>
         public IBox[] GetBoxes(double[,] data, double threshold)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
-            // allow thresholds including zero or negative values now
 
             int height = data.GetLength(0);
             int width = data.GetLength(1);
@@ -24,7 +41,6 @@ namespace ThresholdDetection.Core.Services
             int[] dx = { -1, 0, 1, -1, 1, -1, 0, 1 };
             int[] dy = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
-            // Preallocate an array-based stack to avoid many small allocations
             var stack = new Stack<(int y, int x)>(capacity: Math.Min(4096, height * width));
 
             for (int y = 0; y < height; y++)
@@ -35,11 +51,10 @@ namespace ThresholdDetection.Core.Services
                     double v = data[y, x];
                     if (double.IsNaN(v) || !(v > threshold))
                     {
-                        visited[y, x] = true; // mark as processed so we don't revisit NaNs or below-threshold cells
+                        visited[y, x] = true; 
                         continue;
                     }
 
-                    // start region
                     int minX = x, maxX = x, minY = y, maxY = y;
                     stack.Clear();
                     stack.Push((y, x));
@@ -49,13 +64,11 @@ namespace ThresholdDetection.Core.Services
                     {
                         var (cy, cx) = stack.Pop();
 
-                        // update bounds
                         if (cx < minX) minX = cx;
                         if (cx > maxX) maxX = cx;
                         if (cy < minY) minY = cy;
                         if (cy > maxY) maxY = cy;
 
-                        // check neighbors
                         for (int k = 0; k < 8; k++)
                         {
                             int ny = cy + dy[k];
@@ -70,7 +83,7 @@ namespace ThresholdDetection.Core.Services
                                 }
                                 else
                                 {
-                                    visited[ny, nx] = true; // mark as visited to skip later
+                                    visited[ny, nx] = true;
                                 }
                             }
                         }

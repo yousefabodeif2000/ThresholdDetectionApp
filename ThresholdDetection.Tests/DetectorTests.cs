@@ -1,5 +1,4 @@
-﻿using Xunit;
-using ThresholdDetection.Core.Services;
+﻿using ThresholdDetection.Core.Services;
 
 namespace ThresholdDetection.Tests
 {
