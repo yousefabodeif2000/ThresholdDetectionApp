@@ -41,7 +41,7 @@ namespace ThresholdDetection.Core.Services
             int[] dx = { -1, 0, 1, -1, 1, -1, 0, 1 };
             int[] dy = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
-            var stack = new Stack<(int y, int x)>(capacity: Math.Min(4096, height * width));
+            var stack = new Stack<(int y, int x)>(Math.Min(4096, height * width));
 
             for (int y = 0; y < height; y++)
             {
@@ -51,7 +51,7 @@ namespace ThresholdDetection.Core.Services
                     double v = data[y, x];
                     if (double.IsNaN(v) || !(v > threshold))
                     {
-                        visited[y, x] = true; 
+                        visited[y, x] = true;
                         continue;
                     }
 
@@ -73,6 +73,7 @@ namespace ThresholdDetection.Core.Services
                         {
                             int ny = cy + dy[k];
                             int nx = cx + dx[k];
+
                             if (nx >= 0 && ny >= 0 && nx < width && ny < height && !visited[ny, nx])
                             {
                                 double nv = data[ny, nx];
@@ -89,11 +90,49 @@ namespace ThresholdDetection.Core.Services
                         }
                     }
 
-                    boxes.Add(new Box(minX, minY, width: maxX - minX + 1, height: maxY - minY + 1));
+                    boxes.Add(new Box(minX, minY, maxX - minX + 1, maxY - minY + 1));
+                }
+            }
+            //return boxes.ToArray();
+            
+            var mergedBoxes = new List<IBox>(boxes);
+            var toRemove = new HashSet<IBox>();
+
+            foreach (var bottom in boxes)
+            {
+                int bottomEdge = bottom.YStart + bottom.YLength;
+                if (bottomEdge >= height - 1)
+                {
+                    foreach (var top in boxes)
+                    {
+                        if (top.YStart == 0 && !toRemove.Contains(top))
+                        {
+                            bool xOverlap = !(top.XStart > bottom.XStart + bottom.XLength ||
+                                              top.XStart + top.XLength < bottom.XStart);
+                            if (xOverlap)
+                            {
+                                int newXStart = Math.Min(bottom.XStart, top.XStart);
+                                int newXEnd = Math.Max(bottom.XStart + bottom.XLength, top.XStart + top.XLength);
+                                int newYStart = bottom.YStart;
+                                int newYLength = bottom.YLength + top.YLength;
+
+                                mergedBoxes.Add(new Box(newXStart, newYStart, newXEnd - newXStart, newYLength));
+
+                                toRemove.Add(top);
+                                toRemove.Add(bottom);
+                            }
+                        }
+                    }
                 }
             }
 
-            return boxes.ToArray();
+            mergedBoxes.RemoveAll(b => toRemove.Contains(b));
+
+            return mergedBoxes.ToArray();
+            
         }
+
+
+
     }
 }
